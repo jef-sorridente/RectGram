@@ -8,6 +8,7 @@ const insertPhoto = async (req, res) => {
   const image = req.file.filename;
 
   console.log(req.body);
+  console.log(res.body);
 
   res.send("Foto Enviada");
 };
