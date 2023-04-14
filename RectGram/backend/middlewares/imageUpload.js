@@ -1,4 +1,5 @@
 const multer = require("multer");
+const { v4: uuidv4 } = require("uuid");
 const path = require("path");
 
 // Destino da imagem
@@ -16,7 +17,12 @@ const imageStore = multer.diskStorage({
     cb(null, `uploads/${folder}/`);
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
+    // Utilização do uuid para fazer um Id unico como nome do arquivo
+    const uniqueSuffix = Date.now() + "-" + uuidv4();
+    cb(
+      null,
+      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
+    );
   },
 });
 
