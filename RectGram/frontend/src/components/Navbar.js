@@ -10,7 +10,7 @@ import {
 } from "react-icons/bs";
 
 // Hooks
-import { useState } from "react";
+//import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -29,6 +29,8 @@ const Navbar = () => {
   const handleLogout = () => {
     dispatch(logout());
     dispatch(reset());
+
+    navigate("/login");
   };
 
   return (
@@ -42,7 +44,7 @@ const Navbar = () => {
         {auth ? (
           <>
             <li>
-              <NavLink to={"/"}>
+              <NavLink to="/">
                 <BsHouseDoorFill />
               </NavLink>
             </li>
@@ -59,16 +61,17 @@ const Navbar = () => {
               </NavLink>
             </li>
             <li>
-              <span onClick={handleLogout()}>Sair</span>
+              <span onClick={handleLogout}>Sair</span>
             </li>
           </>
         ) : (
           <>
+            {" "}
             <li>
-              <NavLink to={"/login"}>Entrar</NavLink>
-            </li>{" "}
+              <NavLink to="/login">Entrar</NavLink>
+            </li>
             <li>
-              <NavLink to={"/register"}>Cadastrar</NavLink>
+              <NavLink to="/register">Cadastrar</NavLink>
             </li>
           </>
         )}

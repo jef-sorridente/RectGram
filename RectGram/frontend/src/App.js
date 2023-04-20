@@ -17,9 +17,7 @@ import Footer from "./components/Footer";
 
 function App() {
   const { auth, loading } = useAuth();
-
-  console.log(loading);
-
+  
   if (loading) {
     return <p>Carregando...</p>;
   }
@@ -34,8 +32,14 @@ function App() {
               path="/"
               element={auth ? <Home /> : <Navigate to="/login" />}
             />
-            <Route path="/login" element={!auth ? <Login /> : <Navigate to="/"/>} />
-            <Route path="/register" element={!auth ? <Register /> : <Navigate to="/"/>} />
+            <Route
+              path="/login"
+              element={!auth ? <Login /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/register"
+              element={!auth ? <Register /> : <Navigate to="/" />}
+            />
           </Routes>
         </div>
         <Footer />
