@@ -60,7 +60,7 @@ const EditProfile = () => {
         Adicione uma imagem de pergil e conte mais sobre você...
       </p>
       {(user.profileImage || previewImage) && (
-        <img
+        <img className="profile-image"
           src={
             previewImage
               ? URL.createObjectURL(previewImage)
