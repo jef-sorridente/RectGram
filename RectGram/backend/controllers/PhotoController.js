@@ -1,6 +1,6 @@
 const Photo = require("../models/Photo");
 const User = require("../models/User");
-const { Types, ObjectId } = require("mongoose");
+const { Types} = require("mongoose");
 
 // Inserir uma foto com um usuário relacioando a ela
 const insertPhoto = async (req, res) => {

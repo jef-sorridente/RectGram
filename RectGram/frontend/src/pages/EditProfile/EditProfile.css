@@ -11,9 +11,47 @@
   color: #ccc;
 }
 
-.profile-image {
+.profile-image-box {
   width: 150px;
   height: 150px;
   border-radius: 50%;
+  overflow: hidden;
+  margin: auto;
   margin-bottom: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  color: #000;
 }
+.profile-image-box{
+  width: 150px;
+}
+
+.profile-image{
+  font-size: 150px;
+  transition: 0.3s;
+}
+.profile-image-box img {
+  width: 150px;
+}
+/*
+.profile-image-box:hover .profile-image{
+  opacity: 20%;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.edit-profile-image {
+  position: absolute;
+  font-size: 70px;
+  color: #000;
+  opacity: 0;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.profile-image-box:hover .edit-profile-image {
+  opacity: 100%;
+  transition: 0.3s;
+}*/
+
