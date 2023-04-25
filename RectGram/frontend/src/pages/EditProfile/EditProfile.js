@@ -7,10 +7,14 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 // Redux
-import { profile, resetMessage } from "../../slices/userSlice";
+import { profile, resetMessage, updateProfile } from "../../slices/userSlice";
 
 // Components
 import Message from "../../components/Message";
+import { CgProfile } from "react-icons/cg";
+{
+  /*import { AiFillEdit } from "react-icons/ai";*/
+}
 
 const EditProfile = () => {
   const dispatch = useDispatch();
@@ -40,8 +44,40 @@ const EditProfile = () => {
     }
   }, [user]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Pega os dados do usuário informado no input e coloca em um objeto
+    const userData = {
+      name,
+    };
+    if (name) {
+      userData.name = name;
+    }
+    if (profileImage) {
+      userData.profileImage = profileImage;
+    }
+    if (bio) {
+      userData.bio = bio;
+    }
+    if (password) {
+      userData.password = password;
+    }
+
+    // Construir formulario Data
+    const formData = new FormData();
+
+    const userFormData = Object.keys(userData).forEach((key) =>
+      formData.append(key, userData[key])
+    );
+
+    formData.append("user", userFormData);
+
+    await dispatch(updateProfile(formData));
+
+    setTimeout(() => {
+      dispatch(resetMessage());
+    }, 2000);
   };
 
   const handleFile = (e) => {
@@ -59,16 +95,23 @@ const EditProfile = () => {
       <p className="subtitle">
         Adicione uma imagem de pergil e conte mais sobre você...
       </p>
-      {(user.profileImage || previewImage) && (
-        <img className="profile-image"
-          src={
-            previewImage
-              ? URL.createObjectURL(previewImage)
-              : `${uploads}/users/${users.profileImage}`
-          }
-          alt={user.name}
-        ></img>
-      )}
+      <div className="profile-image-box">
+        {user.profileImage || previewImage ? (
+          <img
+            src={
+              previewImage
+                ? URL.createObjectURL(previewImage)
+                : `${uploads}/users/${user.profileImage}`
+            }
+            alt={user.name}
+          ></img>
+        ) : (
+          <div className="profile-image-box">
+            <CgProfile className="profile-image" />
+            {/*<AiFillEdit className="edit-profile-image"/>*/}
+          </div>
+        )}
+      </div>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -99,7 +142,10 @@ const EditProfile = () => {
             value={password || ""}
           />
         </label>
-        <input type="submit" value="Atualizar" />
+        {!loading && <input type="submit" value="Atualizar" />}
+        {loading && <input type="submit" value="Aguarde..." disabled />}
+        {error && <Message msg={error} type="error" />}
+        {message && <Message msg={message} type="success" />}
       </form>
     </div>
   );
