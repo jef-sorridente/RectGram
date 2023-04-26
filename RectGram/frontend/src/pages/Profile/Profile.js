@@ -10,10 +10,11 @@ import { BsFillEyeFill, BsPencilFill, BsXLg } from "react-icons/bs";
 //Hooks
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 // Redux
 import { getUserDetails } from "../../slices/userSlice";
+import { publishPhoto } from "../../slices/photoSlice";
 
 const Profile = () => {
   const { id } = useParams();
@@ -22,13 +23,37 @@ const Profile = () => {
 
   const { user, loading } = useSelector((state) => state.user);
   const { user: userAuth } = useSelector((state) => state.auth);
+  const {
+    photos,
+    loading: loadingPhoto,
+    message: messagePhoto,
+    error: errorPhoto,
+  } = useSelector((state) => state.photo);
 
-  // Foto
+  const [title, setTitle] = useState("");
+  const [image, setImage] = useState("");
+
+  // Novo Formulário e edição de formulário
+  const newPhotoForm = useRef();
+  const editPhotoForm = useRef();
 
   //Carrega o Usuário
   useEffect(() => {
     dispatch(getUserDetails(id));
   }, [dispatch, id]);
+
+  const handleFile = (e) => {
+    // Imagem de Preview
+    const image = e.target.files[0];
+
+    setImage(image);
+  };
+
+  const submitHandle = (e) => {
+    e.preventDefault();
+
+    
+  };
 
   if (loading) {
     return <p>Carregando...</p>;
@@ -50,6 +75,24 @@ const Profile = () => {
           <p>{user.bio}</p>
         </div>
       </div>
+      {id === userAuth._id && (
+        <>
+          <div className="new-photo" ref={newPhotoForm}>
+            <h3>Compartilhe algum momento seu:</h3>
+            <form onSubmit={submitHandle}>
+              <label>
+                <span>Título para a foto:</span>
+                <input type="text" placeholder="Insira um título" />
+              </label>
+              <label>
+                <span>Imagem:</span>
+                <input type="file" onChange={handleFile} />
+              </label>
+              <input type="submit" value="Postar" />
+            </form>
+          </div>
+        </>
+      )}
     </div>
   );
 };
