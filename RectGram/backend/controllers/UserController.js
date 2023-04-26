@@ -50,6 +50,13 @@ const register = async (req, res) => {
   });
 };
 
+// Obter o usuário logado
+const getCurrentUser = async (req, res) => {
+  const user = req.user;
+
+  res.status(200).json(user);
+};
+
 // Entra no User
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -74,13 +81,6 @@ const login = async (req, res) => {
     profileImage: user.profileImage,
     token: generateToken(user._id),
   });
-};
-
-// Obter o usuário logado
-const getCurrentUser = async (req, res) => {
-  const user = req.user;
-
-  res.status(200).json(user);
 };
 
 // Update do usuario
@@ -110,6 +110,10 @@ const update = async (req, res) => {
     const passwordHash = await bcrypt.hash(password, salt);
 
     user.password = passwordHash;
+  }
+
+  if (profileImage) {
+    user.profileImage = profileImage;
   }
 
   if (bio) {

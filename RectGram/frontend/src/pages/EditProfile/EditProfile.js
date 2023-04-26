@@ -35,7 +35,6 @@ const EditProfile = () => {
   }, [dispatch]);
 
   // Preencha os dados do usuário do formulário
-
   useEffect(() => {
     if (user) {
       setName(user.name);
@@ -98,17 +97,18 @@ const EditProfile = () => {
       <div className="profile-image-box">
         {user.profileImage || previewImage ? (
           <img
+            className="profile-image"
             src={
               previewImage
                 ? URL.createObjectURL(previewImage)
                 : `${uploads}/users/${user.profileImage}`
             }
             alt={user.name}
-          ></img>
+          />
         ) : (
           <div className="profile-image-box">
             <CgProfile className="profile-image" />
-            {/*<AiFillEdit className="edit-profile-image"/>*/}
+            {/* <AiFillEdit className="edit-profile-image" />*/}
           </div>
         )}
       </div>
