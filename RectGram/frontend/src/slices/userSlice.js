@@ -45,7 +45,7 @@ export const getUserDetails = createAsyncThunk(
 
     const data = await userService.getUserDetails(id, token);
 
-    console.log(data);
+    //console.log(data);
 
     return data;
   }
@@ -81,7 +81,7 @@ export const userSlice = createSlice({
         state.error = null;
       })
       .addCase(updateProfile.fulfilled, (state, action) => {
-        console.log(state, action);
+        //console.log(state, action);
         state.loading = false;
         state.success = true;
         state.error = null;

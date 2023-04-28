@@ -7,6 +7,7 @@ const {
   deletePhoto,
   getAllPhotos,
   getUserPhotos,
+  getPhotoById,
   updatePhoto,
   likePhoto,
   commentPhoto,
@@ -32,11 +33,11 @@ router.post(
   validate,
   insertPhoto
 );
-router.get("/", authGuard, getAllPhotos);
 router.delete("/:id", authGuard, deletePhoto);
-router.get("/users/:id", authGuard, getUserPhotos);
+router.get("/", authGuard, getAllPhotos);
+router.get("/user/:id", authGuard, getUserPhotos);
 router.get("/search", authGuard, searchPhotos);
-router.get("/:id", authGuard, getUserPhotos);
+router.get("/:id", getPhotoById);
 router.put("/:id", authGuard, photoUpdateValidation(), validate, updatePhoto);
 router.put("/like/:id", authGuard, likePhoto);
 router.put(

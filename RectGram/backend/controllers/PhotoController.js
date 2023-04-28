@@ -97,11 +97,11 @@ const getPhotoById = async (req, res) => {
 
   //Verifica se a foto existe
   if (!photo) {
-    res.status(404).json({ errors: ["Foto não encontradad."] });
+    res.status(404).json({ errors: ["Foto não encontrada."] });
     return;
   }
 
-  res.status(200).json(photos);
+  res.status(200).json(photo);
 };
 
 //Updade da foto
@@ -215,7 +215,7 @@ module.exports = {
   deletePhoto,
   getAllPhotos,
   getUserPhotos,
-  getUserPhotos,
+  getPhotoById,
   updatePhoto,
   likePhoto,
   commentPhoto,
