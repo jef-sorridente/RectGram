@@ -4,6 +4,8 @@ import { uploads } from "../../utils/config";
 
 // Componentes
 import Message from "../../components/Message";
+import PhotoItem from "../../components/PhotoItem";
+import LikeContainer from "../../components/LikeContainer";
 import { Link } from "react-router-dom";
 
 // Hooks
@@ -13,8 +15,6 @@ import { useParams } from "react-router-dom";
 
 // Redux
 import { getPhoto, like } from "../../slices/photoSlice";
-import PhotoItem from "../../components/PhotoItem";
-import LikeContainer from "../../components/LikeContainer";
 
 const Photo = () => {
   const { id } = useParams();
@@ -41,6 +41,8 @@ const Photo = () => {
   if (loading) {
     return <p>Carregando...</p>;
   }
+
+  console.log("Log" + photo);
 
   return (
     <div id="photo">
