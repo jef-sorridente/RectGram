@@ -76,7 +76,7 @@ const getPhoto = async (id, token) => {
 };
 
 // Like da foto
-const likePhoto = async (id, token) => {
+const like = async (id, token) => {
   const config = requestConfig("PUT", null, token);
 
   try {
@@ -127,8 +127,6 @@ const photoService = {
   updatePhoto,
   getPhoto,
   likePhoto,
-  comment,
-  getPhotos,
 };
 
 export default photoService;

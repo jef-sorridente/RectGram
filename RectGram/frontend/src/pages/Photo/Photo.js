@@ -68,8 +68,6 @@ const Photo = () => {
     return <p>Carregando...</p>;
   }
 
-  
-
   return (
     <div id="photo">
       <PhotoItem photo={photo} />
