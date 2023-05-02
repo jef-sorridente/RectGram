@@ -1,6 +1,6 @@
 const Photo = require("../models/Photo");
 const User = require("../models/User");
-const { Types} = require("mongoose");
+const { Types } = require("mongoose");
 
 // Inserir uma foto com um usuário relacioando a ela
 const insertPhoto = async (req, res) => {
@@ -146,13 +146,13 @@ const likePhoto = async (req, res) => {
 
   //Verifica se a foto existe
   if (!photo) {
-    res.status(404).json({ errors: ["Foto não encontradad."] });
+    res.status(404).json({ errors: ["Foto não encontrada!."] });
     return;
   }
 
   //Checar se o usuário já deu Like
   if (photo.likes.includes(reqUser._id)) {
-    res.status(422).json({ errors: ["Você já curtiu a foto"] });
+    res.status(422).json({ errors: ["Você já curtiu a foto."] });
     return;
   }
 
@@ -163,7 +163,7 @@ const likePhoto = async (req, res) => {
 
   res
     .status(200)
-    .json({ photoId: id, userId: reqUser, message: "A foto foi curtida" });
+    .json({ photoId: id, userId: reqUser._id, message: "A foto foi curtida!" });
 };
 
 // Funcionalidade de Comentário
@@ -177,12 +177,12 @@ const commentPhoto = async (req, res) => {
 
   const photo = await Photo.findById(id);
 
-  //Verifica se a foto existe
+  // Check if photo exists
   if (!photo) {
-    res.status(404).json({ errors: ["Foto não encontrada."] });
+    res.status(404).json({ errors: ["Foto não encontrada!"] });
     return;
   }
-
+  
   //Coloca comentário
   const userComment = {
     comment,
@@ -190,7 +190,7 @@ const commentPhoto = async (req, res) => {
     userImage: user.profileImage,
     userId: user._id,
   };
-
+  
   photo.comments.push(userComment);
 
   await photo.save();

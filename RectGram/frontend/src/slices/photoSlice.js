@@ -91,18 +91,56 @@ export const getPhoto = createAsyncThunk(
 );
 
 // Like da foto
-export const like = createAsyncThunk("photo/like", async (id, thunkAPI) => {
-  const token = thunkAPI.getState().auth.user.token;
+export const likePhoto = createAsyncThunk(
+  "photo/like",
+  async (id, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
 
-  const data = await photoService.like(id, token);
+    const data = await photoService.likePhoto(id, token);
 
-  // Check for errors
-  if (data.errors) {
-    return thunkAPI.rejectWithValue(data.errors[0]);
+    // Check for errors
+    if (data.errors) {
+      return thunkAPI.rejectWithValue(data.errors[0]);
+    }
+
+    return data;
   }
+);
 
-  return data;
-});
+// Adicionar Comentário na Foto
+export const comment = createAsyncThunk(
+  "photo/comment",
+  async (photoData, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
+
+    const data = await photoService.comment(
+      {
+        comment: photoData.comment,
+      },
+      photoData.id,
+      token
+    );
+
+    // Check for errors
+    if (data.errors) {
+      return thunkAPI.rejectWithValue(data.errors[0]);
+    }
+
+    return data;
+  }
+);
+
+//Pega todas as Fotos
+export const getPhotos = createAsyncThunk(
+  "photo/getall",
+  async (_, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
+
+    const data = await photoService.getPhotos(token);
+
+    return data;
+  }
+);
 
 export const photoSlice = createSlice({
   name: "photo",
@@ -192,16 +230,17 @@ export const photoSlice = createSlice({
         state.error = null;
         state.photo = action.payload;
       })
-      .addCase(like.fulfilled, (state, action) => {
+      .addCase(likePhoto.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
         state.error = null;
+
         if (state.photo.likes) {
           state.photo.likes.push(action.payload.userId);
         }
 
         state.photos.map((photo) => {
-          if (photo._id === action.payload.photo.photoId) {
+          if (photo._id === action.payload.photoId) {
             return photo.likes.push(action.payload.userId);
           }
           return photo;
@@ -209,10 +248,32 @@ export const photoSlice = createSlice({
 
         state.message = action.payload.message;
       })
-      .addCase(like.rejected, (state, action) => {
+      .addCase(likePhoto.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        state.photo = null;
+      })
+      .addCase(comment.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+
+        state.photo.comments.push(action.payload.comment);
+
+        state.message = action.payload.message;
+      })
+      .addCase(comment.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(getPhotos.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getPhotos.fulfilled, (state, action) => {
+        state.loading = false;
+        state.success = true;
+        state.error = null;
+        state.photos = action.payload;
       });
   },
 });
