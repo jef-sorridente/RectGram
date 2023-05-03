@@ -76,7 +76,7 @@ const getPhoto = async (id, token) => {
 };
 
 // Like da foto
-const like = async (id, token) => {
+const likePhoto = async (id, token) => {
   const config = requestConfig("PUT", null, token);
 
   try {
@@ -110,9 +110,24 @@ const getPhotos = async (token) => {
   const config = requestConfig("GET", null, token);
 
   try {
-    const res = await fetch(api + "/photos" , config)
+    const res = await fetch(api + "/photos", config)
       .then((res) => res.json())
       .catch((err) => err);
+
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Busca a foto pelo título
+const searchPhotos = async (query, token) => {
+  const config = requestConfig("GET", null, token);
+
+  try {
+    const res = await fetch(api + "/photos/search?q=" + query, config)
+      .then((res) => res.json())
+      .catch((res) => res);
 
     return res;
   } catch (error) {
@@ -126,7 +141,10 @@ const photoService = {
   deletePhoto,
   updatePhoto,
   getPhoto,
+  getPhotos,
   likePhoto,
+  comment,
+  searchPhotos,
 };
 
 export default photoService;
